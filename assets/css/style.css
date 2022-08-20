@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,9001;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 body {
 
@@ -30,8 +30,8 @@ h1 {
     
     width: 100%;
     max-width: 1110px;
+    max-width: 1110px;
     display: grid;
-    
     justify-content: center;
     gap: 15px;
     margin: 0 auto;
@@ -48,6 +48,7 @@ h1 {
     position: relative;
     transition: all 1s ease;
     transform-style: preserve-3d;
+
 }
 
 .faces {
@@ -81,6 +82,37 @@ h1 {
 
     transform: rotateY(180deg);
     
+}
+
+
+@media (max-width: 920px) {
+
+    .game{
+
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+    }
+
+    .carta {
+
+        width: 117px;
+
+    }
+
+    .faces {
+
+        width: 117px;
+    
+    }
+
+    h1 {
+
+        text-align: center;
+        
+    }
+
 }
 
 @media (max-width: 335px) {

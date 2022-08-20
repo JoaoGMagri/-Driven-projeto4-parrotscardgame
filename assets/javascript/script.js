@@ -11,20 +11,12 @@ const todasAsCartas = [
     'unicornparrot.gif'
 
 ];
-const listaDeCartas = [];
+let listaDeCartas = [];
 
 let primeiraCarta = '';
 let segundaCarta = '';
 let quantidadeDeCartas = 0;
 let tentativas = 0;
-
-function criarElemento(tag, Name) {
-
-    const elemento = document.createElement(tag);
-    elemento.className= Name;
-    return elemento;
-
-}
 
 function iniciarGame() {
 
@@ -42,26 +34,105 @@ function iniciarGame() {
             listaDeCartas[i] = todasAsCartas[i];
         
         }
+        carregarJoga();
     
     }
 
 }
 iniciarGame();
 
-function fimDeJogo() {
 
-    const cartasViradas = document.querySelectorAll('.revelaCarta');
+function carregarJoga() {
 
-    if (cartasViradas.length === quantidadeDeCartas) {
+    const duplicaListaDeCartas = [ ...listaDeCartas, ...listaDeCartas ];
+
+    const arrayEmbaralhado = duplicaListaDeCartas.sort( () => Math.random() - 0.5 );
+
+    arrayEmbaralhado.forEach((cartas) => {
+
+        const carta = criarCartas(cartas);
+        game.appendChild(carta);
+
+    }); 
+
+    giroDeCartaInicial();
+
+}
+
+
+function criarElemento(tag, Name) {
+
+    const elemento = document.createElement(tag);
+    elemento.className= Name;
+    return elemento;
+
+}
+
+
+function giroDeCartaInicial() {
+
+    setTimeout(() => {
+
+        const cartasViradas = document.querySelectorAll('.carta');
         
-        setTimeout(() => {
+        for (let i = 0; i < cartasViradas.length; i++) {
+            
+            cartasViradas[i].classList.remove('revelaCarta');
 
-            alert(`Você ganhou em ${tentativas} jogadas!`);
+        }
 
-        }, 1000);
+    }, 1000);
+
+}
+
+
+function criarCartas(cartas) {
+
+    const quantasCartas = document.querySelector('.game');
+
+    quantasCartas.style.gridTemplateColumns = `repeat(${quantidadeDeCartas/2} , 117px)`;
+
+    const carta = criarElemento('div', 'carta revelaCarta');
+    const frente = criarElemento('div', 'faces frente');
+    const atras = criarElemento('div', 'faces atras');
+
+    frente.style.backgroundImage = `url('assets/image/${cartas}')`;
+
+    carta.appendChild(frente);
+    carta.appendChild(atras);
+
+    carta.addEventListener('click', revelaCarta);
+    carta.setAttribute('data-carta', cartas);
+
+    return carta;
+
+}
+
+
+function revelaCarta({target}) {
+
+    if (target.parentNode.className.includes('revelaCarta')){
+        
+        return;
+
+    }
+
+    if (primeiraCarta === '') {
+        
+        target.parentNode.classList.add('revelaCarta');
+        primeiraCarta = target.parentNode;
+
+    } else if (segundaCarta === '') {
+
+        target.parentNode.classList.add('revelaCarta');
+        segundaCarta = target.parentNode;        
+
+        checarCartas();
+
     }
 
 }
+
 
 function checarCartas() {
 
@@ -92,64 +163,46 @@ function checarCartas() {
 
 }
 
-function revelaCarta({target}) {
 
-    if (target.parentNode.className.includes('revelaCarta')){
+function fimDeJogo() {
+
+    const cartasViradas = document.querySelectorAll('.revelaCarta');
+
+    if (cartasViradas.length === quantidadeDeCartas) {
         
+        setTimeout(() => {
+
+            alert(`Você ganhou em ${tentativas} jogadas!`);
+
+            reinicarGame();
+
+        }, 1000);
+
+    }
+
+}
+
+
+function reinicarGame() {
+
+    const reiniciar = prompt("Deseja reinicar?");
+    const corpo = document.querySelector('.game');
+
+    if (reiniciar === 'sim' || reiniciar === 'Sim') {
+
+        corpo.innerHTML = '';
+        listaDeCartas = [];
+        tentativas = 0;
+        iniciarGame();
+
+    } else if(reiniciar === 'nao' || reiniciar === 'Nao' ||  reiniciar === 'não' || reiniciar === 'Não') {
+
         return;
 
-    }
+    } else {
 
-    if (primeiraCarta === '') {
-        
-        target.parentNode.classList.add('revelaCarta');
-        primeiraCarta = target.parentNode;
-
-    } else if (segundaCarta === '') {
-
-        target.parentNode.classList.add('revelaCarta');
-        segundaCarta = target.parentNode;        
-
-        checarCartas();
+        reinicarGame();
 
     }
 
 }
-
-function criarCartas(cartas) {
-
-    const quantasCartas = document.querySelector('.game');
-
-    quantasCartas.style.gridTemplateColumns = `repeat(${quantidadeDeCartas/2} , 117px)`;
-
-    const carta = criarElemento('div', 'carta');
-    const frente = criarElemento('div', 'faces frente');
-    const atras = criarElemento('div', 'faces atras');
-
-    frente.style.backgroundImage = `url('assets/image/${cartas}')`;
-
-    carta.appendChild(frente);
-    carta.appendChild(atras);
-
-    carta.addEventListener('click', revelaCarta);
-    carta.setAttribute('data-carta', cartas);
-
-    return carta;
-
-}
-
-function carregarJoga() {
-
-    const duplicaListaDeCartas = [ ...listaDeCartas, ...listaDeCartas ];
-
-    const arrayEmbaralhado = duplicaListaDeCartas.sort( () => Math.random() - 0.5 );
-
-    arrayEmbaralhado.forEach((cartas) => {
-
-        const carta = criarCartas(cartas);
-        game.appendChild(carta);
-
-    }); 
-
-}
-carregarJoga();
