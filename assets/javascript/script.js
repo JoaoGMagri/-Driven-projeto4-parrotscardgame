@@ -1,40 +1,6 @@
-// const cards = ['cardParaCima1', 'cardParaCima2', 'cardParaCima3', 'cardParaCima4',
-//                'cardParaCima5', 'cardParaCima6', 'cardParaCima7'
-// ]
-
-// function iniciarGame() {
-
-//     const quantidadeDeCartas = Number(prompt('Com quantas cartas quer jogar de 4 a 14??'));
-
-//     if (quantidadeDeCartas < 4 || quantidadeDeCartas > 14 || quantidadeDeCartas%2 !== 0) {
-//         alert("Escolha a quantidade de cartas entre 4 e 14 e que seja par");
-//         iniciarGame();
-//     }
-
-//     iniciarCartas(quantidadeDeCartas);
-
-// }
-// // iniciarGame();
-
-// function iniciarCartas(qtdeCartas) {
-
-//     const div = document.querySelector('.game');
-
-//     for (let i = 0; i < qtdeCartas; i++) {
-        
-//         div.innerHTML += `
-//             <div class="cardParaBaixo" onclick="virarCarta(this)">
-
-//             </div>
-//         `;
-        
-//     }
-
-// }
-
 const game = document.querySelector('.game');
 
-const listaDeCartas = [
+const todasAsCartas = [
     'bobrossparrot.gif',
     'explodyparrot.gif',
     'fiestaparrot.gif',
@@ -42,16 +8,84 @@ const listaDeCartas = [
     'revertitparrot.gif',
     'tripletsparrot.gif',
     'unicornparrot.gif'
-]
+];
+const listaDeCartas = [];
 
 let primeiraCarta = '';
 let segundaCarta = '';
-
+let quantidadeDeCartas = 0;
+let tentativas = 0;
 
 function criarElemento(tag, Name) {
     const elemento = document.createElement(tag);
     elemento.className= Name;
     return elemento;
+}
+
+function iniciarGame() {
+
+    quantidadeDeCartas = Number(prompt('Com quantas cartas quer jogar de 4 a 14??'));
+
+    if (quantidadeDeCartas < 4 || quantidadeDeCartas > 14 || quantidadeDeCartas%2 !== 0) {
+        
+        alert("Escolha a quantidade de cartas entre 4 e 14 e que seja par");
+        iniciarGame();
+    
+    }else {
+
+        for (let i = 0; i < (quantidadeDeCartas/2); i++) {
+
+            listaDeCartas[i] = todasAsCartas[i];
+        
+        }
+    
+    }
+
+}
+iniciarGame();
+
+function fimDeJogo() {
+
+    const cartasViradas = document.querySelectorAll('.revelaCarta');
+
+    if (cartasViradas.length === quantidadeDeCartas) {
+        
+        setTimeout(() => {
+            alert(`Parabéns, você conseguiu em ${tentativas} tentativas!`);
+
+        }, 1000);
+    }
+
+}
+
+function checarCartas() {
+
+    tentativas++;
+
+    const primeiroAtributo = primeiraCarta.getAttribute('data-carta');
+    const segundoAtributo = segundaCarta.getAttribute('data-carta');
+
+    if (primeiroAtributo === segundoAtributo) {
+
+        primeiraCarta = '';
+        segundaCarta = '';
+
+        fimDeJogo();
+
+    } else {
+
+        setTimeout(() => {
+
+            primeiraCarta.classList.remove('revelaCarta');
+            segundaCarta.classList.remove('revelaCarta');
+            
+            primeiraCarta = '';
+            segundaCarta = '';
+        }, 1000);
+
+
+    }
+
 }
 
 function revelaCarta({target}) {
@@ -60,7 +94,19 @@ function revelaCarta({target}) {
         return;
     }
 
-    target.parentNode.classList.add('revelaCarta')
+    if (primeiraCarta === '') {
+        
+        target.parentNode.classList.add('revelaCarta');
+        primeiraCarta = target.parentNode;
+
+    } else if (segundaCarta === '') {
+
+        target.parentNode.classList.add('revelaCarta');
+        segundaCarta = target.parentNode;        
+
+
+        checarCartas();
+    }
 
 }
 
@@ -76,6 +122,7 @@ function criarCartas(cartas) {
     carta.appendChild(atras);
 
     carta.addEventListener('click', revelaCarta);
+    carta.setAttribute('data-carta', cartas);
 
     return carta;
 
@@ -89,7 +136,7 @@ function carregarJoga() {
 
 
     arrayEmbaralhado.forEach((cartas) => {
-        console.log(cartas);
+
         const carta = criarCartas(cartas);
         game.appendChild(carta);
 
