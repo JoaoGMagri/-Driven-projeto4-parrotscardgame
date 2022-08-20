@@ -14,7 +14,7 @@ h1 {
 }
 
 .topo {
-    display: flex;
+    display: grid;
     justify-content: center;
     align-items: center;
     margin: 40px auto;
@@ -22,13 +22,14 @@ h1 {
 
 .game {
     
-    display: grid;
-    grid-template-columns: repeat(6 , 117px);
-    gap: 15px;
     width: 100%;
     max-width: 1110px;
+    display: grid;
+    
+    justify-content: center;
+    gap: 15px;
     margin: 0 auto;
-
+    
 }
 
 .carta {
@@ -70,4 +71,33 @@ h1 {
 
 .revelaCarta {
     transform: rotateY(180deg);
+}
+
+@media (max-width: 335px) {
+
+    h1 {
+        
+        width: auto;
+        text-align: center;
+        font-size: 36px;
+        margin: 40px 12px;
+
+    }
+    
+    .game {
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .carta {
+
+        width: 117px;
+        height: 146px;
+    
+    }
+
 }

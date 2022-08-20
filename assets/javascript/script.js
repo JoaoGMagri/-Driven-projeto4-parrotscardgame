@@ -51,7 +51,7 @@ function fimDeJogo() {
     if (cartasViradas.length === quantidadeDeCartas) {
         
         setTimeout(() => {
-            alert(`Parabéns, você conseguiu em ${tentativas} tentativas!`);
+            alert(`Você ganhou em ${tentativas} jogadas!`);
 
         }, 1000);
     }
@@ -111,6 +111,10 @@ function revelaCarta({target}) {
 }
 
 function criarCartas(cartas) {
+
+    const quantasCartas = document.querySelector('.game');
+
+    quantasCartas.style.gridTemplateColumns = `repeat(${quantidadeDeCartas/2} , 117px)`;
 
     const carta = criarElemento('div', 'carta');
     const frente = criarElemento('div', 'faces frente');
