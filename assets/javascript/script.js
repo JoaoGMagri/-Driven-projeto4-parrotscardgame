@@ -1,6 +1,7 @@
 const game = document.querySelector('.game');
 
 const todasAsCartas = [
+
     'bobrossparrot.gif',
     'explodyparrot.gif',
     'fiestaparrot.gif',
@@ -8,6 +9,7 @@ const todasAsCartas = [
     'revertitparrot.gif',
     'tripletsparrot.gif',
     'unicornparrot.gif'
+
 ];
 const listaDeCartas = [];
 
@@ -17,9 +19,11 @@ let quantidadeDeCartas = 0;
 let tentativas = 0;
 
 function criarElemento(tag, Name) {
+
     const elemento = document.createElement(tag);
     elemento.className= Name;
     return elemento;
+
 }
 
 function iniciarGame() {
@@ -51,6 +55,7 @@ function fimDeJogo() {
     if (cartasViradas.length === quantidadeDeCartas) {
         
         setTimeout(() => {
+
             alert(`Você ganhou em ${tentativas} jogadas!`);
 
         }, 1000);
@@ -83,7 +88,6 @@ function checarCartas() {
             segundaCarta = '';
         }, 1000);
 
-
     }
 
 }
@@ -91,7 +95,9 @@ function checarCartas() {
 function revelaCarta({target}) {
 
     if (target.parentNode.className.includes('revelaCarta')){
+        
         return;
+
     }
 
     if (primeiraCarta === '') {
@@ -104,8 +110,8 @@ function revelaCarta({target}) {
         target.parentNode.classList.add('revelaCarta');
         segundaCarta = target.parentNode;        
 
-
         checarCartas();
+
     }
 
 }
@@ -138,7 +144,6 @@ function carregarJoga() {
 
     const arrayEmbaralhado = duplicaListaDeCartas.sort( () => Math.random() - 0.5 );
 
-
     arrayEmbaralhado.forEach((cartas) => {
 
         const carta = criarCartas(cartas);
@@ -148,5 +153,3 @@ function carregarJoga() {
 
 }
 carregarJoga();
-
-
