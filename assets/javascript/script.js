@@ -1,7 +1,7 @@
 const game = document.querySelector('.game');
 
 const todasAsCartas = [
-
+    
     'bobrossparrot.gif',
     'explodyparrot.gif',
     'fiestaparrot.gif',
@@ -9,7 +9,7 @@ const todasAsCartas = [
     'revertitparrot.gif',
     'tripletsparrot.gif',
     'unicornparrot.gif'
-
+    
 ];
 let listaDeCartas = [];
 
@@ -17,6 +17,8 @@ let primeiraCarta = '';
 let segundaCarta = '';
 let quantidadeDeCartas = 0;
 let tentativas = 0;
+let tempo = 0;
+let id = 0;
 
 function iniciarGame() {
 
@@ -76,12 +78,30 @@ function giroDeCartaInicial() {
         const cartasViradas = document.querySelectorAll('.carta');
         
         for (let i = 0; i < cartasViradas.length; i++) {
-            
+
             cartasViradas[i].classList.remove('revelaCarta');
 
         }
 
     }, 1000);
+
+    iniciarRelogio();
+
+}
+
+
+function iniciarRelogio() {
+
+    id = setInterval(relogio, 1000);
+
+}
+
+
+function relogio() {
+    
+    tempo++;
+    const relogio = document.querySelector('.contador');
+    relogio.innerHTML = tempo;
 
 }
 
@@ -170,9 +190,14 @@ function fimDeJogo() {
 
     if (cartasViradas.length === quantidadeDeCartas) {
         
+        clearInterval(id);
+
         setTimeout(() => {
 
-            alert(`Você ganhou em ${tentativas} jogadas!`);
+            alert(`
+                Você ganhou em ${tentativas} jogadas!
+                Em ${tempo} segundos
+            `);
 
             reinicarGame();
 
@@ -193,6 +218,7 @@ function reinicarGame() {
         corpo.innerHTML = '';
         listaDeCartas = [];
         tentativas = 0;
+        tempo = 0;
         iniciarGame();
 
     } else if(reiniciar === 'nao' || reiniciar === 'Nao' ||  reiniciar === 'não' || reiniciar === 'Não') {
