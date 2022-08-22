@@ -141,11 +141,13 @@ function revelaCarta({target}) {
         
         target.parentNode.classList.add('revelaCarta');
         primeiraCarta = target.parentNode;
+        tentativas++;
 
     } else if (segundaCarta === '') {
 
         target.parentNode.classList.add('revelaCarta');
-        segundaCarta = target.parentNode;        
+        segundaCarta = target.parentNode;
+        tentativas++;        
 
         checarCartas();
 
@@ -155,8 +157,6 @@ function revelaCarta({target}) {
 
 
 function checarCartas() {
-
-    tentativas++;
 
     const primeiroAtributo = primeiraCarta.getAttribute('data-carta');
     const segundoAtributo = segundaCarta.getAttribute('data-carta');
